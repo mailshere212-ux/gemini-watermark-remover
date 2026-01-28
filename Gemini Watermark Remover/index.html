@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini Watermark Remover</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Gemini Watermark Remover</h1>
+      <p class="subtitle">
+        100% client-side. Upload a Gemini image and we’ll remove the visible watermark automatically.
+      </p>
+
+      <section class="card">
+        <!-- Upload area (click or drag-and-drop) -->
+        <div id="uploadArea" class="uploadArea" role="button" tabindex="0">
+          <input id="fileInput" class="fileInput" type="file" accept="image/png,image/jpeg,image/webp" />
+          <div class="uploadInner">
+            <div class="uploadTitle">Upload an image</div>
+            <div class="uploadHint">Click to choose, or drag & drop a PNG/JPG/WebP</div>
+            <div id="fileName" class="uploadMeta">No file selected</div>
+          </div>
+        </div>
+
+        <!-- Status line (errors / loading) -->
+        <div id="status" class="status" aria-live="polite"></div>
+
+        <!-- Preview grid -->
+        <div id="previewGrid" class="previewGrid hidden">
+          <div class="panel">
+            <div class="panelHeader">
+              <div class="panelTitle">Original</div>
+            </div>
+            <div class="imageBox">
+              <img id="originalPreview" alt="Original preview" />
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panelHeader">
+              <div class="panelTitle">Result</div>
+              <div class="panelActions">
+                <button id="downloadBtn" class="btn primary" type="button" disabled>Download Result</button>
+              </div>
+            </div>
+            <div class="imageBox">
+              <img id="resultPreview" alt="Processed preview" />
+            </div>
+          </div>
+        </div>
+
+        <div class="footerActions">
+          <button id="resetBtn" class="btn" type="button" disabled>Reset / Upload New Image</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
