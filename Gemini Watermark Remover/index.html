@@ -1,62 +1,196 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gemini Watermark Remover</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <main class="container">
-      <h1>Gemini Watermark Remover</h1>
-      <p class="subtitle">
-        100% client-side. Upload a Gemini image and we’ll remove the visible watermark automatically.
-      </p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      <section class="card">
-        <!-- Upload area (click or drag-and-drop) -->
-        <div id="uploadArea" class="uploadArea" role="button" tabindex="0">
-          <input id="fileInput" class="fileInput" type="file" accept="image/png,image/jpeg,image/webp" />
-          <div class="uploadInner">
-            <div class="uploadTitle">Upload an image</div>
-            <div class="uploadHint">Click to choose, or drag & drop a PNG/JPG/WebP</div>
-            <div id="fileName" class="uploadMeta">No file selected</div>
-          </div>
+    <title>Gemini Watermark Remover Online - Free Batch Tool (Nano Banana)</title>
+    <meta name="description" content="The easiest way to remove the Gemini watermark online. Batch delete watermarks from 10 images at once. Free, private, and better than the Reddit alternatives.">
+
+    <meta property="og:title" content="Gemini Watermark Remover - Clean & Erase Watermarks">
+    <meta property="og:description" content="Can you remove the Google Gemini watermark? Yes. Use our free batch tool to erase text and logos instantly.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./styles.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "Gemini Watermark Remover",
+          "applicationCategory": "MultimediaApplication",
+          "operatingSystem": "Web Browser",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How to turn off Gemini watermark?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You cannot turn off the watermark inside the Google Gemini app settings. However, you can use this free online tool to erase the Gemini watermark from your downloaded images instantly."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can you remove the Google Gemini watermark for free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. This Gemini Watermark Cleaner is 100% free and allows you to batch process up to 10 images at once without any hidden fees."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+</head>
+
+<body>
+
+    <main class="main-wrapper">
+
+        <header class="hero-section">
+            <h1 class="hero-title">Gemini Watermark Remover Online</h1>
+            <p class="hero-subtitle">
+                The <span class="highlight">easiest way to remove Gemini watermarks</span>. <br>
+                Batch erase logos from <strong>Nano Banana</strong> images instantly.
+            </p>
+        </header>
+
+        <div class="tool-card">
+            <div id="tool-container">
+                <!-- Upload area: IDs kept so app.js works -->
+                <div class="upload-placeholder" id="uploadArea" role="button" tabindex="0">
+                    <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" multiple hidden>
+                    <span class="icon">📂</span>
+                    <div class="uploadInner">
+                        <h3>Drag & Drop Gemini Images</h3>
+                        <p>Batch process up to 10 files (PNG, WebP, JPG)</p>
+                        <div id="fileName" class="uploadMeta">No file selected</div>
+                    </div>
+                    <button type="button" class="upload-btn">Upload Images</button>
+                </div>
+
+                <div id="status" class="status" aria-live="polite"></div>
+
+                <div id="batchBar" class="batchBar hidden">
+                    <div class="batchLeft">
+                        <div id="progressText" class="progressText">Processing 0 of 0…</div>
+                        <label class="field">
+                            <span class="fieldLabel">Quality</span>
+                            <select id="qualitySelect" class="select">
+                                <option value="1" selected>Original (100%)</option>
+                                <option value="0.85">Medium (85%)</option>
+                                <option value="0.70">Compressed (70%)</option>
+                            </select>
+                        </label>
+                        <fieldset class="formatGroup" role="group" aria-label="Output format">
+                            <span class="fieldLabel">Output format</span>
+                            <div class="formatRadios">
+                                <label class="formatLabel">
+                                    <input type="radio" name="formatSelect" value="png" checked>
+                                    <span>PNG</span>
+                                </label>
+                                <label class="formatLabel">
+                                    <input type="radio" name="formatSelect" value="jpeg">
+                                    <span>JPEG</span>
+                                </label>
+                                <label class="formatLabel">
+                                    <input type="radio" name="formatSelect" value="webp">
+                                    <span>WebP</span>
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="batchActions">
+                        <button id="downloadAllBtn" class="btn primary" type="button" disabled>Download All as ZIP</button>
+                    </div>
+                </div>
+
+                <div id="thumbGrid" class="thumbGrid hidden" aria-live="polite"></div>
+
+                <div class="footerActions">
+                    <button id="resetBtn" class="btn" type="button" disabled>Reset / Upload New Image</button>
+                </div>
+            </div>
         </div>
 
-        <!-- Status line (errors / loading) -->
-        <div id="status" class="status" aria-live="polite"></div>
+        <article class="content-section">
 
-        <!-- Preview grid -->
-        <div id="previewGrid" class="previewGrid hidden">
-          <div class="panel">
-            <div class="panelHeader">
-              <div class="panelTitle">Original</div>
+            <div class="features-grid">
+                <div class="feature-box">
+                    <h3>⚡ Gemini Watermark Tool</h3>
+                    <p>Why wait? Use the fastest <strong>gemini watermark cleaner</strong> to process 10 files at once.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>🔒 Private & Secure</h3>
+                    <p>Unlike sketchy <strong>Reddit</strong> suggestions, we never upload your files. Everything happens in your browser.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>🤖 Nano Banana Support</h3>
+                    <p>Specifically tuned to <strong>delete gemini watermarks</strong> (both text and logos) from the Nano Banana model.</p>
+                </div>
             </div>
-            <div class="imageBox">
-              <img id="originalPreview" alt="Original preview" />
-            </div>
-          </div>
 
-          <div class="panel">
-            <div class="panelHeader">
-              <div class="panelTitle">Result</div>
-              <div class="panelActions">
-                <button id="downloadBtn" class="btn primary" type="button" disabled>Download Result</button>
-              </div>
-            </div>
-            <div class="imageBox">
-              <img id="resultPreview" alt="Processed preview" />
-            </div>
-          </div>
-        </div>
+            <hr class="divider">
 
-        <div class="footerActions">
-          <button id="resetBtn" class="btn" type="button" disabled>Reset / Upload New Image</button>
-        </div>
-      </section>
+            <section class="text-block">
+                <h2>How to Get Rid of Gemini Watermark</h2>
+                <p>Many users ask, <em>"Can u remove gemini watermark?"</em> or <em>"Is there a way to remove gemini watermark?"</em> The answer is yes. While Google embeds these logos for transparency, they can ruin a professional presentation. Here is how to erase them:</p>
+                <ol>
+                    <li><strong>Upload:</strong> Drag your images into the box above.</li>
+                    <li><strong>Clean:</strong> Our algorithm detects the <strong>Gemini watermark text</strong> pixel-by-pixel.</li>
+                    <li><strong>Download:</strong> Get your clean images instantly.</li>
+                </ol>
+            </section>
+
+            <section class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq-item">
+                    <h3>How to turn off Gemini watermark?</h3>
+                    <p>Currently, Google does not provide a setting to disable the watermark during generation. The only solution is to use a <strong>Gemini watermark remover</strong> tool like this one post-generation.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can you remove the Google Gemini watermark on mobile?</h3>
+                    <p>Yes. This tool works perfectly on mobile browsers (Chrome, Safari) so you can <strong>erase Gemini watermarks</strong> directly on your phone.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Why does Gemini watermark images?</h3>
+                    <p>Google uses the "SynthID" and visible watermarks to label AI content. Our tool focuses only on the visible logo so you can use your images for design work.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Is this better than the Reddit methods?</h3>
+                    <p>Yes. Searching <strong>"gemini watermark remover reddit"</strong> often leads to complex Photoshop tutorials. This tool automates the math (Reverse Alpha Blending) for you in seconds.</p>
+                </div>
+            </section>
+
+        </article>
+
     </main>
 
+    <footer class="site-footer">
+        <p>&copy; 2026 GeminiWatermarkRemover. Not affiliated with Google.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Contact</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/upng-js/2.1.0/UPNG.min.js"></script>
     <script src="./app.js" defer></script>
-  </body>
+</body>
 </html>
