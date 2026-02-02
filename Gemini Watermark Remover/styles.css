@@ -1,11 +1,11 @@
-/* 1. RESET & VARIABLES */
+/* 1. RESET & VARIABLES – lighter greenish theme */
 :root {
-    --bg-color: #0f172a;
-    --card-bg: #1e293b;
-    --primary: #8b5cf6; /* Violet */
-    --accent: #ec4899;  /* Pink */
-    --text-white: #f8fafc;
-    --text-gray: #94a3b8;
+    --bg-color: #1e2d28;
+    --card-bg: #2a3f38;
+    --primary: #059669;   /* Emerald */
+    --accent: #34d399;    /* Mint green */
+    --text-white: #f0fdf4;
+    --text-gray: #9ca89f;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -14,7 +14,7 @@ body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     color: var(--text-white);
     background-color: var(--bg-color);
-    background: radial-gradient(circle at top center, #1e1b4b 0%, #0f172a 60%, #000000 100%);
+    background: radial-gradient(circle at top center, #234336 0%, #1e2d28 50%, #172a22 100%);
     min-height: 100vh;
     line-height: 1.6;
 }
@@ -36,7 +36,7 @@ body {
     font-size: 3rem;
     font-weight: 800;
     margin-bottom: 15px;
-    background: linear-gradient(to right, #fff, #a78bfa);
+    background: linear-gradient(to right, #fff, #6ee7b7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -54,11 +54,11 @@ body {
 /* 4. TOOL CARD */
 .tool-card {
     background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 20px;
     padding: 40px;
     margin-bottom: 60px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
     text-align: center;
 }
 
@@ -74,12 +74,12 @@ body {
 
 .upload-placeholder:hover {
     border-color: var(--primary);
-    background: rgba(139, 92, 246, 0.08);
+    background: rgba(5, 150, 105, 0.12);
 }
 
 .upload-placeholder.dragover {
     border-color: var(--accent);
-    background: rgba(236, 72, 153, 0.1);
+    background: rgba(52, 211, 153, 0.15);
 }
 
 .upload-placeholder .icon {
@@ -112,7 +112,7 @@ body {
     background: linear-gradient(135deg, var(--primary), var(--accent));
     border: none;
     border-radius: 8px;
-    color: white;
+    color: #0f172a;
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
@@ -247,7 +247,7 @@ body {
 .btn.primary {
     border: none;
     background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white;
+    color: #0f172a;
 }
 
 .btn.primary:hover:not(:disabled) {
@@ -449,4 +449,4 @@ p.thumbRowLabel {
     text-decoration: none;
     margin: 0 10px;
 }
-.footer-links a:hover { color: var(--primary); }
+.footer-links a:hover { color: var(--accent); }
