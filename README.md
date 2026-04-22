@@ -104,6 +104,4 @@ MIT License. Free to use, fork, and build on.
 ## Related Tools
 
 - [Quick Image Fix — All Tools](https://quickimagefix.pro/)
-- [Image Compressor](https://quickimagefix.pro/image-compressor/)
-- [EXIF & Metadata Remover](https://quickimagefix.pro/metadata-remover/)
-- [Image Resizer](https://quickimagefix.pro/image-resizer/)
+  
